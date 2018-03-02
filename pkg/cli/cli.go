@@ -53,7 +53,7 @@ func parseEnvOptions() *common.EnvOptions  {
 	workDir, err := os.Getwd()
 	var dirs []string
 	if nil == err {
-		dirs = strings.SplitN(workDir, "/", -1)
+		dirs = strings.SplitN(workDir, string(os.PathSeparator), -1)
 		log.Debugln("[cli] dirs: ", dirs)
 	}
 
