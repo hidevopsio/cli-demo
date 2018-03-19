@@ -31,9 +31,11 @@ func NewCmdCicdRun(name string, envOptions *common.EnvOptions) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVarP(&profile, "profile","p", "dev", "--profile=test")
-	cmd.PersistentFlags().StringVarP(&project, "project","P", "", "--profile=project-name")
-	cmd.PersistentFlags().StringVarP(&app, "app","a", "", "--app=my-app")
+	pf := cmd.PersistentFlags()
+
+	pf.StringVarP(&profile, "profile","p", "dev", "--profile=test")
+	pf.StringVarP(&project, "project","P", "", "--profile=project-name")
+	pf.StringVarP(&app, "app","a", "", "--app=my-app")
 
 	return cmd
 }
