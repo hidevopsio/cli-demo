@@ -14,13 +14,13 @@ import (
 	"github.com/hidevopsio/hicli/pkg/common"
 )
 
-const productName = `hi-devops`
+const productName = `hi`
 
 type Commmands []*cobra.Command
 
 var (
 	cliLong = `
-    ` + productName + ` Client
+    ` + productName + ` client
 
     This client helps you develop, build, deploy, and run your applications on any
     OpenShift or Kubernetes compatible platform.`
@@ -29,7 +29,7 @@ var (
     To create a new application, login to your server and then change dir to your application:
 
         %[1]s login https://mycluster.mycompany.com
-        %[1]s cicd deploy
+        %[1]s cicd run
 
     This will deploy you application to openshift / kubernetes cluster.
 
