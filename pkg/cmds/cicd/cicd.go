@@ -3,7 +3,7 @@ package cicd
 import (
 	"github.com/spf13/cobra"
 	"fmt"
-	"github.com/hi-devops-io/hi-cli/pkg/common"
+	"github.com/hidevopsio/hicli/pkg/common"
 )
 
 // NewCmdCicd creates a command for displaying the version of this binary
@@ -17,7 +17,7 @@ func NewCmdCicd(name string, envOptions *common.EnvOptions) *cobra.Command {
 		},
 	}
 
-	cmd.AddCommand(NewCmdCicdDeply(name, envOptions))
+	cmd.AddCommand(NewCmdCicdRun(name, envOptions))
 
 	return cmd
 }

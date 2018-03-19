@@ -12,7 +12,7 @@ func NewCmdVersion(fullName string) *cobra.Command {
 		Short: "Display client and server versions",
 		Long:  "Display client and server versions.",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("\n%s v2.0.0\n", fullName)
+			fmt.Printf("%s v2.0.0\n", fullName)
 		},
 	}
 

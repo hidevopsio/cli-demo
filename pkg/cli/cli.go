@@ -9,9 +9,9 @@ import (
 	"io"
 	"github.com/spf13/cobra"
 	"github.com/openshift/origin/pkg/cmd/util/term"
-	"github.com/hi-devops-io/hi-cli/pkg/cmds"
-	"github.com/hi-devops-io/hi-cli/pkg/cmds/cicd"
-	"github.com/hi-devops-io/hi-cli/pkg/common"
+	"github.com/hidevopsio/hicli/pkg/cmds"
+	"github.com/hidevopsio/hicli/pkg/cmds/cicd"
+	"github.com/hidevopsio/hicli/pkg/common"
 )
 
 const productName = `hi-devops`

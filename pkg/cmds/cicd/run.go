@@ -2,9 +2,9 @@ package cicd
 
 
 import (
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"github.com/hi-devops-io/hi-cli/pkg/common"
+	"github.com/hidevopsio/hicli/pkg/common"
+	"github.com/hidevopsio/hi/boot/pkg/log"
 )
 
 var (
@@ -14,11 +14,11 @@ var (
 )
 
 // NewCmdCicd creates a command for displaying the version of this binary
-func NewCmdCicdDeply(name string, envOptions *common.EnvOptions) *cobra.Command {
+func NewCmdCicdRun(name string, envOptions *common.EnvOptions) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "deploy",
-		Short: "CI/CD deploy command",
-		Long:  "Run deploy command of Continuously Integration / Continuously Delivery",
+		Use:   "run",
+		Short: "CI/CD run command",
+		Long:  "Run run command of Continuously Integration / Continuously Delivery",
 		Run: func(cmd *cobra.Command, args []string) {
 			if "" == app {
 				app = envOptions.App
@@ -27,7 +27,7 @@ func NewCmdCicdDeply(name string, envOptions *common.EnvOptions) *cobra.Command 
 				project = envOptions.Project
 			}
 
-			log.Debugf("[cicd] %s cicd deploy --profile=%s --project=%s --app=%s\n", name, profile, project, app)
+			log.Debugf("[cicd] %s cicd run --profile=%s --project=%s --app=%s\n", name, profile, project, app)
 		},
 	}
 

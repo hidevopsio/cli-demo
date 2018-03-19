@@ -1,21 +1,14 @@
 package main
 
 import (
-	log "github.com/sirupsen/logrus"
 	"path/filepath"
 	"os"
-	"github.com/hi-devops-io/hi-cli/pkg/cli"
+	"github.com/hidevopsio/hicli/pkg/cli"
+	"github.com/hidevopsio/hi/boot/pkg/log"
 )
 
 func init() {
-
-	customFormatter := new(log.TextFormatter)
-	customFormatter.TimestampFormat = "2006-01-02 15:04:05"
-	customFormatter.FullTimestamp = true
-	log.SetFormatter(customFormatter)
-	log.SetLevel(log.DebugLevel)
-
-	log.Debugln("[main] init()")
+	log.SetLevel("debug")
 }
 
 func main() {
