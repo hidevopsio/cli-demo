@@ -1,7 +1,7 @@
 package cli
 
 import (
-	log "github.com/sirupsen/logrus"
+	"github.com/hidevopsio/hi/boot/pkg/log"
 	"runtime"
 	"strings"
 	"os"
@@ -54,7 +54,7 @@ func parseEnvOptions() *common.EnvOptions  {
 	var dirs []string
 	if nil == err {
 		dirs = strings.SplitN(workDir, string(os.PathSeparator), -1)
-		log.Debugln("[cli] dirs: ", dirs)
+		log.Debug("[cli] dirs: ", dirs)
 	}
 
 	var app, project string
