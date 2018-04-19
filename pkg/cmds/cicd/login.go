@@ -17,13 +17,12 @@ package cicd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/hidevopsio/hicli/pkg/common"
 	"github.com/hidevopsio/hi/boot/pkg/log"
 	"strings"
 )
 
 // NewCmdCicd creates a command for displaying the version of this binary
-func NewCmdCicdLogin(name string, envOptions *common.EnvOptions) *cobra.Command {
+func NewCmdCicdLogin(name string) *cobra.Command {
 
 	var (
 		url string

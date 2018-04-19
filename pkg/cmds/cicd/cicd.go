@@ -32,7 +32,7 @@ func NewCmdCicd(name string, envOptions *common.EnvOptions) *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		NewCmdCicdLogin(name, envOptions),
+		NewCmdCicdLogin(name),
 		NewCmdCicdRun(name, envOptions),
     )
 
