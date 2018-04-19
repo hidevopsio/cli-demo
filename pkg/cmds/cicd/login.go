@@ -12,21 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package cmds
+package cicd
+
 
 import (
 	"github.com/spf13/cobra"
-	"fmt"
+	"github.com/hidevopsio/hicli/pkg/common"
+	"github.com/hidevopsio/hi/boot/pkg/log"
+	"strings"
 )
 
-// NewCmdVersion creates a command for displaying the version of this binary
-func NewCmdVersion(fullName string) *cobra.Command {
+// NewCmdCicd creates a command for displaying the version of this binary
+func NewCmdCicdLogin(name string, envOptions *common.EnvOptions) *cobra.Command {
+
+	var (
+		url string
+		username string
+		password string
+	)
+
 	cmd := &cobra.Command{
-		Use:   "version",
-		Short: "Display client and server versions",
-		Long:  "Display client and server versions.",
+		Use:   "login",
+		Short: "CI/CD login command",
+		Long:  "Run login command of Continuously Integration / Continuously Delivery",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("%s v2.0.0\n", fullName)
+			log.Debugf("[cicd] %s cicd login --url=%s --username=%s --password=%s\n", name, url, username, strings.Repeat("*", len(password)))
 		},
 	}
 
