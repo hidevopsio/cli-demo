@@ -1,7 +1,7 @@
 
 
 hicli:
-  lastCluster: http://foo.com
+  lastIndex: 0
 
   clusters:
   - cluster: http://foo.com
