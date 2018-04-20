@@ -17,7 +17,7 @@ package cicd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/hidevopsio/hi/boot/pkg/log"
+	"github.com/hidevopsio/hiboot/pkg/log"
 	"strings"
 )
 

@@ -18,7 +18,7 @@ import (
 	"path/filepath"
 	"os"
 	"github.com/hidevopsio/hicli/pkg/cli"
-	"github.com/hidevopsio/hi/boot/pkg/log"
+	"github.com/hidevopsio/hiboot/pkg/log"
 )
 
 func init() {

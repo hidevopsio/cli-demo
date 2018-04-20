@@ -51,9 +51,9 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/hidevopsio/hi"
-  packages = ["boot/pkg/log"]
-  revision = "df8371bbcb1192d51abadf7019a1f86bac327d32"
+  name = "github.com/hidevopsio/hiboot"
+  packages = ["pkg/log"]
+  revision = "bdc01a32f7c32a5f2a8278285e2c890f5b6e2071"
 
 [[projects]]
   name = "github.com/inconshreveable/mousetrap"
@@ -184,6 +184,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "683a538795a3b9fe2d049a88b0c2e9c267de476341066d38f1b32520ffa39032"
+  inputs-digest = "bcf7f2a87f201f88e51c8f0dbd409b2da7ede76abf09da5e7851f1997f8a3813"
   solver-name = "gps-cdcl"
   solver-version = 1

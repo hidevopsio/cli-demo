@@ -15,7 +15,7 @@
 package cli
 
 import (
-	"github.com/hidevopsio/hi/boot/pkg/log"
+	"github.com/hidevopsio/hiboot/pkg/log"
 	"runtime"
 	"strings"
 	"os"

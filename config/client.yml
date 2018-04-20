@@ -1,0 +1,13 @@
+
+
+hicli:
+  lastCluster: http://foo.com
+
+  clusters:
+  - cluster: http://foo.com
+    username: foo
+    token: xxxxxxxx
+
+  - cluster: http://bar.com
+    username: bar
+    token: yyyyyyyy
