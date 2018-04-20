@@ -1,5 +1,5 @@
 # hicli
-hicli is an open source, community-driven command line client for managing hi devops servers.
+hicli is an open source, community-driven command line client for managing hidevops services.
 
 hicli is writen in Go, it can be run cross Windows, Mac, Linux.
 
