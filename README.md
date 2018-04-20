@@ -4,6 +4,7 @@ hicli is an open source, community-driven command line client for managing hi de
 hicli is writen in Go, it can be run cross Windows, Mac, Linux.
 
 ```bash
+hi cicd login
 hi cicd run --app=my-app --project=my-project --profile=test
 ```
 
@@ -29,3 +30,13 @@ cd hicli
 git remote add upstream 'https://github.com/hidevopsio/hicli'
 git config --global --add http.followRedirects 1
 ```
+
+
+### Keeping your fork in sync
+
+```bash
+git fetch upstream
+git rebase upstream/master
+```
+
+Note: If you have write access to the main repositories (e.g. github.com/hidevopsio/hicli), you should modify your Git configuration so that you can't accidentally push to upstream:
