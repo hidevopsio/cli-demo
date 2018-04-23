@@ -47,7 +47,6 @@ func UpdateYAML(conf *config.Configuration, url, username, token string) error {
 	var servers []config.Cluster
 	for index, v := range conf.Hicli.Clusters {
 		if v.Cluster == url && v.Username == username {
-			fmt.Println("The New Index is ", index)
 			v.Token = token
 			conf.Hicli.LastIndex = index
 			exists = true
@@ -65,7 +64,7 @@ func UpdateYAML(conf *config.Configuration, url, username, token string) error {
 		servers = append(conf.Hicli.Clusters, newCluster)
 		lastIndex := len(servers) - 1
 		conf.Hicli.LastIndex = lastIndex
-		fmt.Println("Add the server to conf")
+		//fmt.Println("Add the server to conf")
 	}
 	conf.Hicli.Clusters = servers
 	//初始化build
@@ -83,9 +82,6 @@ func UpdateYAML(conf *config.Configuration, url, username, token string) error {
 		return err
 	}
 	err = b.Save(conf)
-	if err == nil {
-		fmt.Println("Save Suceess")
-	}
 	return err
 }
 
@@ -104,67 +100,3 @@ func InitYAML() (err error) {
 	}
 	return err
 }
-
-/*
-以下相关函数暂时用不上
-
-//检查用户提供的URL与用户名是否存在于YAML文件中，如果存在，返回true。后续读出Token
-func CheckConf(url,username string)  bool {
-	fileConf := ReadYaml()
-	for _,v := range fileConf.Hicli.Clusters {
-		if url == v.Cluster && username == v.Username {
-			return true
-		}
-		fmt.Println(v.Cluster)
-	}
-	return false
-}
-
-//根据用户URL与用户名，返回YAML中相对应的Token
-func GetToken(url,username string)  string {
-	conf := ReadYaml()
-	for _,v := range conf.Hicli.Clusters {
-		if v.Cluster == url && v.Username == username {
-			return v.Token
-		}
-	}
-	return ""
-}
-
-//更新Token,主要应对Token失效的情况。
-func UpdateToken(url,token string) {
-	conf := ReadYaml()
-	for _,v := range conf.Hicli.Clusters {
-		if v.Cluster == url {
-			v.Token = token
-		}
-	}
-}
-
-//获取YAML中的LastIndex。如果文件与文件夹都不存放，则创建它们并返回空
-func GetLastIndex() (int,bool) {
-	userHomeDir, _ := GetHomeDir()
-	yamlDir := filepath.Join(userHomeDir,".hicli")
-	if PathExists(yamlDir) {
-		if PathExists(filepath.Join(yamlDir,"client.yml")) {
-			conf := ReadYaml()
-			//fmt.Println(conf.Hicli.LastIndex)
-			return conf.Hicli.LastIndex,true
-		} else {
-			_, err := os.Create(filepath.Join(yamlDir,"client.yml"))
-			if err != nil {
-				fmt.Println("Create client.yml failed ",err)
-			}
-		}
-	} else {
-		err := os.Mkdir(yamlDir, 755)
-		if err != nil {
-			fmt.Println("Mkidr .hicli failed ",err)
-		}
-		if _, err := os.Create(filepath.Join(yamlDir,"client.yml"));err != nil {
-			fmt.Println("Create client.yml failed ",err)
-		}
-	}
-	return 0,false
-}
-*/

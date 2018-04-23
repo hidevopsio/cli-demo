@@ -57,7 +57,7 @@ func Login(url, username, password string) (token string, err error) {
 
 //收集用户终端输入的Username或者URL.通过label指定类型
 func GetInput(label string) (userInput string) {
-	if label == "password" {
+	if label == "Password" {
 		u := promptui.Prompt{
 			Label: label,
 			Mask:  '*',

@@ -9,7 +9,6 @@ import (
 	"strings"
 	"errors"
 	"fmt"
-	"github.com/hidevopsio/hi/boot/pkg/log"
 )
 
 //获取用户HOME目录
@@ -62,7 +61,7 @@ func homeWindows() (string, error) {
 	return home, nil
 }
 
-//获取当前工作目录
+/*
 func GetWorkingDir(file string) string {
 	_, filename, _, _ := runtime.Caller(1)
 	wd := strings.Replace(filename, file, "", -1)
@@ -71,6 +70,7 @@ func GetWorkingDir(file string) string {
 
 	return wd
 }
+*/
 
 //检查指定目录或者文件是否存在
 func PathExists(filePath string) (bool) {

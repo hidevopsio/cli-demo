@@ -20,13 +20,17 @@ import (
 	"github.com/hidevopsio/hicli/pkg/services/auth"
 )
 
+const loginPath string = "/user/login"
+
 // NewCmdCicd creates a command for displaying the version of this binary
 func NewCmdCicdLogin(name string) *cobra.Command {
 
 	var (
-		url      string
-		username string
-		password string
+		url             string
+		username        string
+		password        string
+		defaultUsername string
+		defaultURL      string
 	)
 
 	cmd := &cobra.Command{
@@ -36,30 +40,47 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			//函数实现的功能
 			//log.Debugf("[cicd] %s cicd login --url=%s --username=%s --password=%s\n", name, url, username, strings.Repeat("*", len(password)))
-			fmt.Println("The Func args is ", args)
 			conf := auth.ReadYaml()
 			if len(conf.Hicli.Clusters) == 0 {
 				//client.yml文件为空。让用户提供相关参数。获取并写入YAML
-				url = auth.GetInput("url")
+				url = auth.GetInput("Server") + loginPath
 				if ! auth.CheckUrl(url) {
-					fmt.Println("Error Login URL")
+					fmt.Println("Erro Server", url)
 					return
 				}
-				username = auth.GetInput("username")
-				password = auth.GetInput("password")
-
+				username = auth.GetInput("Username")
+				//password = auth.GetInput("Password")
 			} else {
-				//client.yml文件不为空，clusters下面有相关cluster
+				//client.yml文件不为空，clusters下面有相关cluster信息。通过索引读取出来，并作为默认值待用
 				lastIndex := conf.Hicli.LastIndex
-				url = conf.Hicli.Clusters[lastIndex].Username
-				username = conf.Hicli.Clusters[lastIndex].Username
+				defaultURL = conf.Hicli.Clusters[lastIndex].Cluster
+				defaultUsername = conf.Hicli.Clusters[lastIndex].Username
+				url = auth.GetInput("Server") + loginPath
+				if url == loginPath {
+					url = defaultURL
+					if ! auth.CheckUrl(url) {
+						fmt.Println("Erro Server", url)
+						return
+					}
+					fmt.Println("Will use the URL",url)
+				}
+				if username = auth.GetInput("Username"); username == "" {
+					username = defaultUsername
+					fmt.Println("Will use the username",username)
+				}
 			}
+			password = auth.GetInput("Password")
 			userToken, err := auth.Login(url, username, password)
-			if err == nil {
+			if err == nil && userToken != "" {
 				err := auth.UpdateYAML(conf, url, username, userToken)
 				if err != nil {
 					fmt.Println(err)
+					return
 				}
+				fmt.Println(username, "Login Sucess")
+			} else {
+				//提供的用户名与密码可能有误或者网络不可达
+				fmt.Println("Login Failed ", err)
 			}
 		}, //函数功能实现结束标签
 	}
