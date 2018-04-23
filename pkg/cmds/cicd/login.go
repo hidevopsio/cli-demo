@@ -43,7 +43,7 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 			conf := auth.ReadYaml()
 			if len(conf.Hicli.Clusters) == 0 {
 				//client.yml文件为空。让用户提供相关参数。获取并写入YAML
-				url = auth.GetInput("Server") + loginPath
+				url = auth.GetInput("Server")
 				if ! auth.CheckUrl(url) {
 					fmt.Println("Erro Server", url)
 					return
@@ -55,22 +55,20 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 				lastIndex := conf.Hicli.LastIndex
 				defaultURL = conf.Hicli.Clusters[lastIndex].Cluster
 				defaultUsername = conf.Hicli.Clusters[lastIndex].Username
-				url = auth.GetInput("Server") + loginPath
-				if url == loginPath {
+				url = auth.GetInput("Server[" + defaultURL + "]")
+				if url == "" {
 					url = defaultURL
 					if ! auth.CheckUrl(url) {
 						fmt.Println("Erro Server", url)
 						return
 					}
-					fmt.Println("Will use the URL",url)
 				}
-				if username = auth.GetInput("Username"); username == "" {
+				if username = auth.GetInput("Username[" + defaultUsername +  "]" ); username == "" {
 					username = defaultUsername
-					fmt.Println("Will use the username",username)
 				}
 			}
 			password = auth.GetInput("Password")
-			userToken, err := auth.Login(url, username, password)
+			userToken, err := auth.Login(url+loginPath, username, password)
 			if err == nil && userToken != "" {
 				err := auth.UpdateYAML(conf, url, username, userToken)
 				if err != nil {
