@@ -23,7 +23,7 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/hidevopsio/hi"
+  name = "github.com/hidevopsio/hiboot"
 
 [[constraint]]
   name = "github.com/openshift/origin"
