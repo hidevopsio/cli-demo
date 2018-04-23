@@ -18,11 +18,11 @@ func TestReadYaml(t *testing.T) {
 
 func TestUpdateYAML(t *testing.T) {
 	conf := ReadYaml()
-	err := UpdateYAML(conf,"http://www.unknowname.cn","burtte","Token")
+	err := UpdateYAML(conf, "http://www.unknowname.cn", "burtte", "Token")
 	assert.Equal(t, err, nil)
 }
 
 func TestInitYAML(t *testing.T) {
 	err := InitYAML()
-	assert.Equal(t,err,nil)
+	assert.Equal(t, err, nil)
 }

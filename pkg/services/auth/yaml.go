@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	name      = "client"
-	yaml        = "yml"
+	name = "client"
+	yaml = "yml"
 )
 
 type Boot struct {
@@ -19,11 +19,11 @@ type Boot struct {
 
 //读取用户YAML配置文件
 func ReadYaml() *config.Configuration {
-	userHomeDir,err := GetHomeDir()
+	userHomeDir, err := GetHomeDir()
 	yamlDir := filepath.Join(userHomeDir, ".hicli")
 	InitYAML()
 	if err != nil {
-		fmt.Println("Get Home Dir Failed",err)
+		fmt.Println("Get Home Dir Failed", err)
 	}
 	//fmt.Println(userHomeDir)
 	builder := &system.Builder{
@@ -34,20 +34,20 @@ func ReadYaml() *config.Configuration {
 	}
 	cp, err := builder.Build()
 	if err != nil {
-		fmt.Println("error",err)
+		fmt.Println("error", err)
 	}
-	c  := cp.(*config.Configuration)
+	c := cp.(*config.Configuration)
 	return c
 }
 
 //更新或添加YAML
-func UpdateYAML(conf *config.Configuration, url,username,token string)  error {
+func UpdateYAML(conf *config.Configuration, url, username, token string) error {
 	//增加更新功能开始
 	exists := false
-	var servers  []config.Cluster
-	for index,v := range conf.Hicli.Clusters {
+	var servers []config.Cluster
+	for index, v := range conf.Hicli.Clusters {
 		if v.Cluster == url && v.Username == username {
-			fmt.Println("The New Index is ",index)
+			fmt.Println("The New Index is ", index)
 			v.Token = token
 			conf.Hicli.LastIndex = index
 			exists = true
@@ -69,7 +69,7 @@ func UpdateYAML(conf *config.Configuration, url,username,token string)  error {
 	}
 	conf.Hicli.Clusters = servers
 	//初始化build
-	userHomeDir,_ := GetHomeDir()
+	userHomeDir, _ := GetHomeDir()
 	yamlPath := filepath.Join(userHomeDir, ".hicli")
 	b := &system.Builder{
 		Path:       yamlPath,
@@ -90,21 +90,20 @@ func UpdateYAML(conf *config.Configuration, url,username,token string)  error {
 }
 
 //当client.yml文件不存在时，创建一个空白文件
-func  InitYAML() (err error) {
-	userHomeDir,err := GetHomeDir()
-	yamlDir := filepath.Join(userHomeDir,".hicli")
-	yamlFile := filepath.Join(yamlDir,"client.yml")
+func InitYAML() (err error) {
+	userHomeDir, err := GetHomeDir()
+	yamlDir := filepath.Join(userHomeDir, ".hicli")
+	yamlFile := filepath.Join(yamlDir, "client.yml")
 	if PathExists(yamlDir) {
 		if ! PathExists(yamlFile) {
-			_,err = os.Create(yamlFile)
+			_, err = os.Create(yamlFile)
 		}
-	}else {
-		err = os.Mkdir(yamlDir,755)
-		_,err = os.Create(yamlFile)
+	} else {
+		err = os.Mkdir(yamlDir, 755)
+		_, err = os.Create(yamlFile)
 	}
 	return err
 }
-
 
 /*
 以下相关函数暂时用不上

@@ -13,14 +13,14 @@ import (
 )
 
 //获取用户HOME目录
-func GetHomeDir() (string,error)  {
-	user,err := user.Current()
+func GetHomeDir() (string, error) {
+	user, err := user.Current()
 	if nil == err {
 		//fmt.Println("get dir")
 		return user.HomeDir, nil
 	}
 
-	if "windows" == runtime.GOOS{
+	if "windows" == runtime.GOOS {
 		fmt.Println("windows")
 		return homeWindows()
 	}
@@ -29,12 +29,12 @@ func GetHomeDir() (string,error)  {
 }
 
 //获取*unix系统家目录，不对外提供服务。给GetHomeDir调用
-func homeUnix() (string,error)  {
+func homeUnix() (string, error) {
 	if home := os.Getenv("HOME"); home != "" {
-		return home,nil
+		return home, nil
 	}
 	var stdout bytes.Buffer
-	cmd := exec.Command("sh","-c","eval echo ~$USER")
+	cmd := exec.Command("sh", "-c", "eval echo ~$USER")
 	cmd.Stdout = &stdout
 	if err := cmd.Run(); err != nil {
 		return "", err

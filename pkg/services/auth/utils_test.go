@@ -3,17 +3,19 @@ package auth
 import (
 	"testing"
 	"fmt"
+	"os"
+	"github.com/stretchr/testify/assert"
 )
 
-
 func TestLogin(t *testing.T) {
-	token,err := Login("http://www.baidu.com","tkg","123456")
-	fmt.Println("err is ",err)
-	fmt.Println("token is ",token)
+	username := os.Getenv("SCM_USERNAME")
+	password := os.Getenv("SCM_PASSWORD")
+	token, err := Login("http://172.16.2.27:8080/user/login", username, password)
+	fmt.Println("token is ", token)
+	assert.Equal(t, nil, err)
 }
-
 
 func TestGetInput(t *testing.T) {
 	u := GetInput("username")
-	fmt.Println("username is ",u)
+	fmt.Println("username is ", u)
 }

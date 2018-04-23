@@ -14,7 +14,6 @@
 
 package cicd
 
-
 import (
 	"github.com/spf13/cobra"
 	"fmt"
@@ -25,7 +24,7 @@ import (
 func NewCmdCicdLogin(name string) *cobra.Command {
 
 	var (
-		url string
+		url      string
 		username string
 		password string
 	)
@@ -55,14 +54,14 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 				url = conf.Hicli.Clusters[lastIndex].Username
 				username = conf.Hicli.Clusters[lastIndex].Username
 			}
-			userToken,err := auth.Login(url,username,password)
+			userToken, err := auth.Login(url, username, password)
 			if err == nil {
 				err := auth.UpdateYAML(conf, url, username, userToken)
 				if err != nil {
 					fmt.Println(err)
 				}
 			}
-		},//函数功能实现结束标签
+		}, //函数功能实现结束标签
 	}
 	//pf := cmd.PersistentFlags()
 	//pf.StringVarP(&url, "URL","u", "", "--url=http://www.example.com/")

@@ -7,12 +7,12 @@ import (
 )
 
 func TestGetHomeDir(t *testing.T) {
-	homeDir,_ := GetHomeDir()
+	homeDir, _ := GetHomeDir()
 	fmt.Println(homeDir)
-	assert.Equal(t,homeDir,`C:\Users\vpclu`)
+	assert.Equal(t, homeDir, `C:\Users\vpclu`)
 }
 
 func TestPathExists(t *testing.T) {
-	exists:= PathExists(`C:\Users\vpclu\.hicli`)
-	assert.Equal(t,exists,true)
+	exists := PathExists(`C:\Users\vpclu\.hicli`)
+	assert.Equal(t, exists, true)
 }
