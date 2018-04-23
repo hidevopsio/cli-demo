@@ -19,6 +19,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/hidevopsio/hiboot/pkg/log"
 	"strings"
+	"github.com/hidevopsio/hicli/pkg/services/auth"
+	"fmt"
 )
 
 // NewCmdCicd creates a command for displaying the version of this binary
@@ -36,8 +38,15 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 		Long:  "Run login command of Continuously Integration / Continuously Delivery",
 		Run: func(cmd *cobra.Command, args []string) {
 			log.Debugf("[cicd] %s cicd login --url=%s --username=%s --password=%s\n", name, url, username, strings.Repeat("*", len(password)))
+			if ! auth.CheckUrl(url) {
+				fmt.Println("URL Wrong")
+				return
+			}
+			//URL检查合法继续
 		},
 	}
 
+	pf := cmd.PersistentFlags()
+	pf.StringVarP(&url, "URL","u", "", "--url=http://www.example.com/")
 	return cmd
 }
