@@ -54,30 +54,25 @@ func Login(url,username,password string)  (token string,err error) {
 			}
 		}
 	}
-	/*
-	if resp,err := http.Post(url, "application/json",bytes.NewBuffer(jsonByte));err == nil {
-		byteResp,err:= ioutil.ReadAll(resp.Body)
-		if err = json.Unmarshal(byteResp, &myToken); err == nil {
-			//fmt.Println(myToken.Data)
-			if myToken.Code == 200 {
-				token = myToken.Data
-			}
-		}
-	}
-	*/
+
 	return token,err
 }
 
-//收集用户终端输入的用户名与密码。不做错误检查，错误检查在Login函数会有检验
-func GetInput() (username,password string)  {
+//收集用户终端输入的Username或者URL.通过label指定类型
+func GetInput(label string) string  {
 	u := promptui.Prompt{
-		Label:    "Username",
+		Label:    label,
 	}
-	p:= promptui.Prompt{
-		Label:    "Password",
-		Mask:     '*',
+	username,_ := u.Run()
+	return username
+}
+
+//获取终端用户的Password
+func GetInputPassword() string {
+	p := promptui.Prompt{
+		Label:  "password",
+		Mask:   '*',
 	}
-	username,_ = u.Run()
-	password,_ = p.Run()
-	return username,password
+	password,_ := p.Run()
+	return  password
 }

@@ -14,7 +14,6 @@ func TestLogin(t *testing.T) {
 
 
 func TestGetInput(t *testing.T) {
-	u,p := GetInput()
+	u := GetInput("username")
 	fmt.Println("username is ",u)
-	fmt.Println("password is ",p)
 }

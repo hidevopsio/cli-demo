@@ -7,8 +7,8 @@ type Cluster struct {
 }
 
 type Hicli struct {
-	Clusters  []Cluster `json:"clusters"`
-	LastIndex string 	`json:"lastIndex"`
+	Clusters   []Cluster `json:"clusters"`
+	LastIndex  int		 `json:"lastIndex"`
 }
 
 type Configuration struct {

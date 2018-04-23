@@ -17,10 +17,8 @@ package cicd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/hidevopsio/hiboot/pkg/log"
-	"strings"
-	"github.com/hidevopsio/hicli/pkg/services/auth"
 	"fmt"
+	"github.com/hidevopsio/hicli/pkg/services/auth"
 )
 
 // NewCmdCicd creates a command for displaying the version of this binary
@@ -28,8 +26,8 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 
 	var (
 		url string
-		username string
-		password string
+		//username string
+		//password string
 	)
 
 	cmd := &cobra.Command{
@@ -37,15 +35,17 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 		Short: "CI/CD login command",
 		Long:  "Run login command of Continuously Integration / Continuously Delivery",
 		Run: func(cmd *cobra.Command, args []string) {
-			log.Debugf("[cicd] %s cicd login --url=%s --username=%s --password=%s\n", name, url, username, strings.Repeat("*", len(password)))
-			if ! auth.CheckUrl(url) {
-				fmt.Println("URL Wrong")
-				return
+			//函数实现的功能
+			//log.Debugf("[cicd] %s cicd login --url=%s --username=%s --password=%s\n", name, url, username, strings.Repeat("*", len(password)))
+			fmt.Println("The Func args is ", args)
+			lastIndex,exists := auth.GetLastIndex()
+			if !exists {
+				url := auth.GetInput("url")
+				fmt.Println(url)
 			}
-			//URL检查合法继续
-		},
+			fmt.Println(lastIndex,url)
+		},//函数功能实现结束标签
 	}
-
 	pf := cmd.PersistentFlags()
 	pf.StringVarP(&url, "URL","u", "", "--url=http://www.example.com/")
 	return cmd

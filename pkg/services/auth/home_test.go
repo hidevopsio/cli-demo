@@ -13,6 +13,6 @@ func TestGetHomeDir(t *testing.T) {
 }
 
 func TestPathExists(t *testing.T) {
-	exists:= PathExists(`C:\Users\vpclu\client.yml.ok`)
+	exists:= PathExists(`C:\Users\vpclu\.hicli`)
 	assert.Equal(t,exists,true)
 }

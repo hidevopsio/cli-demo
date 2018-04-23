@@ -18,11 +18,23 @@ func TestReadYaml(t *testing.T) {
 
 func TestUpdateYAML(t *testing.T) {
 	conf := ReadYaml()
-	err := UpdateYAML(conf,"http://www.unknowname.cn","burtte","Token")
+	err := UpdateYAML(conf,"http://www.unknowname.win","burtte","Token")
 	assert.Equal(t, err, nil)
 }
 
 func TestCheckConf(t *testing.T) {
 	url := "http://www.biadu.com"
-	assert.Equal(t,CheckConf(url,"chen"),false)
+	assert.Equal(t,CheckConf(url,"cheng"),true)
+}
+
+func TestGetToken(t *testing.T) {
+	token := GetToken("http://www.unknowname.cn", "burtte")
+	assert.Equal(t,token,"Token")
+}
+
+
+func TestGetLastIndex(t *testing.T) {
+	index,exists := GetLastIndex()
+	assert.Equal(t,exists,true)
+	assert.Equal(t,index,0)
 }
