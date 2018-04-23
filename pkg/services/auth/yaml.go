@@ -21,10 +21,11 @@ type Boot struct {
 func ReadYaml() *config.Configuration {
 	userHomeDir,err := GetHomeDir()
 	yamlDir := filepath.Join(userHomeDir, ".hicli")
+	InitYAML()
 	if err != nil {
 		fmt.Println("Get Home Dir Failed",err)
 	}
-	fmt.Println(userHomeDir)
+	//fmt.Println(userHomeDir)
 	builder := &system.Builder{
 		Path:       yamlDir,
 		Name:       name,
@@ -46,7 +47,7 @@ func UpdateYAML(conf *config.Configuration, url,username,token string)  error {
 	var servers  []config.Cluster
 	for index,v := range conf.Hicli.Clusters {
 		if v.Cluster == url && v.Username == username {
-			fmt.Println("User token is ",token)
+			fmt.Println("The New Index is ",index)
 			v.Token = token
 			conf.Hicli.LastIndex = index
 			exists = true
@@ -87,6 +88,26 @@ func UpdateYAML(conf *config.Configuration, url,username,token string)  error {
 	}
 	return err
 }
+
+//当client.yml文件不存在时，创建一个空白文件
+func  InitYAML() (err error) {
+	userHomeDir,err := GetHomeDir()
+	yamlDir := filepath.Join(userHomeDir,".hicli")
+	yamlFile := filepath.Join(yamlDir,"client.yml")
+	if PathExists(yamlDir) {
+		if ! PathExists(yamlFile) {
+			_,err = os.Create(yamlFile)
+		}
+	}else {
+		err = os.Mkdir(yamlDir,755)
+		_,err = os.Create(yamlFile)
+	}
+	return err
+}
+
+
+/*
+以下相关函数暂时用不上
 
 //检查用户提供的URL与用户名是否存在于YAML文件中，如果存在，返回true。后续读出Token
 func CheckConf(url,username string)  bool {
@@ -147,3 +168,4 @@ func GetLastIndex() (int,bool) {
 	}
 	return 0,false
 }
+*/

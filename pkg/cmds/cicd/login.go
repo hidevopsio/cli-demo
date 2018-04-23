@@ -26,8 +26,8 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 
 	var (
 		url string
-		//username string
-		//password string
+		username string
+		password string
 	)
 
 	cmd := &cobra.Command{
@@ -38,15 +38,33 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 			//函数实现的功能
 			//log.Debugf("[cicd] %s cicd login --url=%s --username=%s --password=%s\n", name, url, username, strings.Repeat("*", len(password)))
 			fmt.Println("The Func args is ", args)
-			lastIndex,exists := auth.GetLastIndex()
-			if !exists {
-				url := auth.GetInput("url")
-				fmt.Println(url)
+			conf := auth.ReadYaml()
+			if len(conf.Hicli.Clusters) == 0 {
+				//client.yml文件为空。让用户提供相关参数。获取并写入YAML
+				url = auth.GetInput("url")
+				if ! auth.CheckUrl(url) {
+					fmt.Println("Error Login URL")
+					return
+				}
+				username = auth.GetInput("username")
+				password = auth.GetInput("password")
+
+			} else {
+				//client.yml文件不为空，clusters下面有相关cluster
+				lastIndex := conf.Hicli.LastIndex
+				url = conf.Hicli.Clusters[lastIndex].Username
+				username = conf.Hicli.Clusters[lastIndex].Username
 			}
-			fmt.Println(lastIndex,url)
+			userToken,err := auth.Login(url,username,password)
+			if err == nil {
+				err := auth.UpdateYAML(conf, url, username, userToken)
+				if err != nil {
+					fmt.Println(err)
+				}
+			}
 		},//函数功能实现结束标签
 	}
-	pf := cmd.PersistentFlags()
-	pf.StringVarP(&url, "URL","u", "", "--url=http://www.example.com/")
+	//pf := cmd.PersistentFlags()
+	//pf.StringVarP(&url, "URL","u", "", "--url=http://www.example.com/")
 	return cmd
 }

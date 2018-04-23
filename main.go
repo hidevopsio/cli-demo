@@ -19,16 +19,18 @@ import (
 	"os"
 	"github.com/hidevopsio/hicli/pkg/cli"
 	"github.com/hidevopsio/hiboot/pkg/log"
+	"fmt"
 )
+
 
 func init() {
 	log.SetLevel("debug")
 }
 
 func main() {
-
 	basename := filepath.Base(os.Args[0])
-	log.Debugf("[main] basename: %s", basename)
+	//log.Debugf("[main] basename: %s", basename)
+	fmt.Println("basename: ",basename)
 	command := cli.CommandFor(basename)
 	if err := command.Execute(); err != nil {
 		os.Exit(1)

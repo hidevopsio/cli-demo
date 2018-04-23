@@ -7,7 +7,7 @@ import (
 
 
 func TestLogin(t *testing.T) {
-	token,err := Login("http://www.unknowname.kl","tkg","123456")
+	token,err := Login("http://www.baidu.com","tkg","123456")
 	fmt.Println("err is ",err)
 	fmt.Println("token is ",token)
 }

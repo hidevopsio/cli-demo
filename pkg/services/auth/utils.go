@@ -24,15 +24,13 @@ type LoginAuth struct {
 	Password string 	`json:"password"`
 }
 
-
-
 //检查URL是否合法
 func CheckUrl(url string) bool  {
 	return strings.HasPrefix(url,"http://") || strings.HasPrefix(url,"https://")
 }
 
 
-//登陆函数，返回Token
+//通过HTTP登陆，返回Token
 func Login(url,username,password string)  (token string,err error) {
 	myAuth := LoginAuth{Username:username,Password:password}
 	jsonByte,err := json.Marshal(myAuth)
@@ -59,20 +57,18 @@ func Login(url,username,password string)  (token string,err error) {
 }
 
 //收集用户终端输入的Username或者URL.通过label指定类型
-func GetInput(label string) string  {
-	u := promptui.Prompt{
-		Label:    label,
+func GetInput(label string) (userInput string)  {
+	if label == "password" {
+		u := promptui.Prompt{
+			Label:    label,
+			Mask:   '*',
+		}
+		userInput,_ = u.Run()
+	} else {
+		u := promptui.Prompt{
+			Label: label,
+		}
+		userInput, _ = u.Run()
 	}
-	username,_ := u.Run()
-	return username
-}
-
-//获取终端用户的Password
-func GetInputPassword() string {
-	p := promptui.Prompt{
-		Label:  "password",
-		Mask:   '*',
-	}
-	password,_ := p.Run()
-	return  password
+	return userInput
 }
