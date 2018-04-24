@@ -57,15 +57,16 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 				lastIndex := conf.Hicli.LastIndex
 				defaultURL = conf.Hicli.Clusters[lastIndex].Cluster
 				defaultUsername = conf.Hicli.Clusters[lastIndex].Username
+				//为空，说明没有通过-s参数传入Server
 				if url == "" {
 					url = auth.GetInput("Server[" + defaultURL + "]")
-				}
-				if url == "" {
-					url = defaultURL
-					if ! auth.CheckUrl(url) {
-						fmt.Println("Erro Server", url)
-						return
+					if url == "" {
+						url = defaultURL
 					}
+				}
+				if ! auth.CheckUrl(url) {
+					fmt.Println("Server Formt Wrong Plese Use http://SERVER OR https://SERVER")
+					return
 				}
 				if username = auth.GetInput("Username[" + defaultUsername + "]"); username == "" {
 					username = defaultUsername
