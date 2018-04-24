@@ -40,7 +40,6 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			//函数实现的功能
 			//log.Debugf("[cicd] %s cicd login --url=%s --username=%s --password=%s\n", name, url, username, strings.Repeat("*", len(password)))
-			fmt.Println("User Input Server is ", url)
 			conf := auth.ReadYaml()
 			if len(conf.Hicli.Clusters) == 0 {
 				//client.yml文件为空。让用户提供相关参数。获取并写入YAML
@@ -58,7 +57,7 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 				lastIndex := conf.Hicli.LastIndex
 				defaultURL = conf.Hicli.Clusters[lastIndex].Cluster
 				defaultUsername = conf.Hicli.Clusters[lastIndex].Username
-				if url == ""{
+				if url == "" {
 					url = auth.GetInput("Server[" + defaultURL + "]")
 				}
 				if url == "" {
@@ -68,7 +67,7 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 						return
 					}
 				}
-				if username = auth.GetInput("Username[" + defaultUsername +  "]" ); username == "" {
+				if username = auth.GetInput("Username[" + defaultUsername + "]"); username == "" {
 					username = defaultUsername
 				}
 			}
@@ -80,7 +79,7 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 					fmt.Println(err)
 					return
 				}
-				fmt.Println(username, "Login Sucess")
+				fmt.Println("Login Sucess")
 			} else {
 				//提供的用户名与密码可能有误或者网络不可达
 				fmt.Println("Login Failed ", err)
@@ -88,6 +87,6 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 		}, //函数功能实现结束标签
 	}
 	pf := cmd.PersistentFlags()
-	pf.StringVarP(&url, "Server","s", "", "--server=http://www.example.com/")
+	pf.StringVarP(&url, "Server", "s", "", "--server=http://www.example.com/")
 	return cmd
 }

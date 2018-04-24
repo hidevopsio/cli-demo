@@ -50,6 +50,11 @@ func Login(url, username, password string) (token string, err error) {
 				err = errors.New(myToken.Message)
 			}
 		}
+	}else {
+		//隐藏登陆完整URL信息
+		errs := strings.Split(err.Error(),":")
+		err = errors.New(errs[len(errs)-1])
+		//fmt.Println(errs)
 	}
 
 	return token, err

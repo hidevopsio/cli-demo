@@ -42,9 +42,9 @@ func ReadYaml() *config.Configuration {
 
 //更新或添加YAML
 func UpdateYAML(conf *config.Configuration, url, username, token string) error {
-	//增加更新功能开始
 	exists := false
 	var servers []config.Cluster
+	//检查相关URL与用户名是否存在，存在更新
 	for index, v := range conf.Hicli.Clusters {
 		if v.Cluster == url && v.Username == username {
 			v.Token = token
@@ -53,7 +53,7 @@ func UpdateYAML(conf *config.Configuration, url, username, token string) error {
 		}
 		servers = append(servers, v)
 	}
-	//追加
+	//不存在则添加
 	if ! exists {
 		newCluster := config.Cluster{
 			Cluster:  url,
