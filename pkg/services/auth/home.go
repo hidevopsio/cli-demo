@@ -15,7 +15,6 @@ import (
 func GetHomeDir() (string, error) {
 	user, err := user.Current()
 	if nil == err {
-		//fmt.Println("get dir")
 		return user.HomeDir, nil
 	}
 
@@ -23,7 +22,6 @@ func GetHomeDir() (string, error) {
 		fmt.Println("windows")
 		return homeWindows()
 	}
-	fmt.Println("linux")
 	return homeUnix()
 }
 
@@ -42,7 +40,6 @@ func homeUnix() (string, error) {
 	if result == "" {
 		return "", errors.New("blank output when reading home directory")
 	}
-	fmt.Println("linux")
 	return result, nil
 }
 
@@ -57,7 +54,6 @@ func homeWindows() (string, error) {
 	if home == "" {
 		return "", errors.New("HOMEDRIVE, HOMEPATH, and USERPROFILE are blank")
 	}
-	fmt.Println("windwos ")
 	return home, nil
 }
 

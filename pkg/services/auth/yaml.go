@@ -25,7 +25,6 @@ func ReadYaml() *config.Configuration {
 	if err != nil {
 		fmt.Println("Get Home Dir Failed", err)
 	}
-	//fmt.Println(userHomeDir)
 	builder := &system.Builder{
 		Path:       yamlDir,
 		Name:       name,
@@ -64,7 +63,6 @@ func UpdateYAML(conf *config.Configuration, url, username, token string) error {
 		servers = append(conf.Hicli.Clusters, newCluster)
 		lastIndex := len(servers) - 1
 		conf.Hicli.LastIndex = lastIndex
-		//fmt.Println("Add the server to conf")
 	}
 	conf.Hicli.Clusters = servers
 	//初始化build
