@@ -40,22 +40,27 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			//函数实现的功能
 			//log.Debugf("[cicd] %s cicd login --url=%s --username=%s --password=%s\n", name, url, username, strings.Repeat("*", len(password)))
+			fmt.Println("User Input Server is ", url)
 			conf := auth.ReadYaml()
 			if len(conf.Hicli.Clusters) == 0 {
 				//client.yml文件为空。让用户提供相关参数。获取并写入YAML
-				url = auth.GetInput("Server")
+				if url == "" {
+					//如果用户没有通过-s参数带入，那就要求用户输入
+					url = auth.GetInput("Server")
+				}
 				if ! auth.CheckUrl(url) {
-					fmt.Println("Erro Server", url)
+					fmt.Println("Error Server Address:", url)
 					return
 				}
 				username = auth.GetInput("Username")
-				//password = auth.GetInput("Password")
 			} else {
 				//client.yml文件不为空，clusters下面有相关cluster信息。通过索引读取出来，并作为默认值待用
 				lastIndex := conf.Hicli.LastIndex
 				defaultURL = conf.Hicli.Clusters[lastIndex].Cluster
 				defaultUsername = conf.Hicli.Clusters[lastIndex].Username
-				url = auth.GetInput("Server[" + defaultURL + "]")
+				if url == ""{
+					url = auth.GetInput("Server[" + defaultURL + "]")
+				}
 				if url == "" {
 					url = defaultURL
 					if ! auth.CheckUrl(url) {
@@ -82,7 +87,7 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 			}
 		}, //函数功能实现结束标签
 	}
-	//pf := cmd.PersistentFlags()
-	//pf.StringVarP(&url, "URL","u", "", "--url=http://www.example.com/")
+	pf := cmd.PersistentFlags()
+	pf.StringVarP(&url, "Server","s", "", "--server=http://www.example.com/")
 	return cmd
 }
