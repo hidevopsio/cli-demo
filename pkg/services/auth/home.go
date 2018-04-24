@@ -61,17 +61,6 @@ func homeWindows() (string, error) {
 	return home, nil
 }
 
-/*
-func GetWorkingDir(file string) string {
-	_, filename, _, _ := runtime.Caller(1)
-	wd := strings.Replace(filename, file, "", -1)
-	wd2, _ := os.Getwd()
-	log.Println("working dir: ", wd, " vs ", wd2)
-
-	return wd
-}
-*/
-
 //检查指定目录或者文件是否存在
 func PathExists(filePath string) (bool) {
 	_, err := os.Stat(filePath)
