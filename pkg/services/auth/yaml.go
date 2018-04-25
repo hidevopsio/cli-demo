@@ -3,9 +3,9 @@ package auth
 import (
 	"github.com/hidevopsio/hicli/config"
 	"fmt"
-	"github.com/hidevopsio/hi/pkg/system"
 	"path/filepath"
 	"os"
+	"github.com/hidevopsio/hiboot/pkg/system"
 )
 
 const (
