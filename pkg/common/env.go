@@ -15,7 +15,14 @@
 package common
 
 type EnvOptions struct {
-	Project string
-	App string
+	Name    string `json:"name"`
+	App     string `json:"app"`
+	Project string `json:"project"`
+	Profile string `json:"profile"`
+}
 
+type HicicdResponse struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Data    string `json:"data"`
 }

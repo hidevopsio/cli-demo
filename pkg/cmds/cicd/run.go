@@ -14,17 +14,19 @@
 
 package cicd
 
-
 import (
 	"github.com/spf13/cobra"
 	"github.com/hidevopsio/hicli/pkg/common"
 	"github.com/hidevopsio/hiboot/pkg/log"
+	"github.com/hidevopsio/hicli/pkg/common/cicd"
+	"fmt"
 )
 
 var (
 	profile string
 	project string
-	app string
+	app     string
+	name    string
 )
 
 // NewCmdCicd creates a command for displaying the version of this binary
@@ -34,22 +36,29 @@ func NewCmdCicdRun(name string, envOptions *common.EnvOptions) *cobra.Command {
 		Short: "CI/CD run command",
 		Long:  "Run run command of Continuously Integration / Continuously Delivery",
 		Run: func(cmd *cobra.Command, args []string) {
-			if "" == app {
-				app = envOptions.App
-			}
-			if "" == project {
-				project = envOptions.Project
-			}
-
 			log.Debugf("[cicd] %s cicd run --profile=%s --project=%s --app=%s\n", name, profile, project, app)
+			token, url := cicd.GetTokenUrl()
+			if token == "" || url == "" {
+				fmt.Println("No Login,Plase run hicli cicd login first!")
+				return
+			}
+			env, err := cicd.InitEnvOpt(name, profile, app, project)
+			if err == nil {
+				if err = cicd.CICDRun(url, token, env); err == nil {
+					fmt.Printf("App %s Deploy Sucess\n", app)
+				} else {
+					fmt.Printf("App %s Deploy Failed.%s\n", app, err.Error())
+				}
+			}
 		},
 	}
 
 	pf := cmd.PersistentFlags()
 
-	pf.StringVarP(&profile, "profile","p", "dev", "--profile=test")
-	pf.StringVarP(&project, "project","P", "", "--profile=project-name")
-	pf.StringVarP(&app, "app","a", "", "--app=my-app")
+	pf.StringVarP(&profile, "profile", "p", "dev", "--profile=test")
+	pf.StringVarP(&project, "project", "P", "", "--profile=project-name")
+	pf.StringVarP(&app, "app", "a", "", "--app=my-app")
+	pf.StringVarP(&name, "name", "n", "", "--name=my-name")
 
 	return cmd
 }
