@@ -18,7 +18,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/hidevopsio/hicli/pkg/common"
 	"github.com/hidevopsio/hiboot/pkg/log"
-	"github.com/hidevopsio/hicli/pkg/common/cicd"
+	"github.com/hidevopsio/hicli/pkg/services/cicd"
 	"fmt"
 )
 
@@ -49,6 +49,8 @@ func NewCmdCicdRun(name string, envOptions *common.EnvOptions) *cobra.Command {
 				} else {
 					fmt.Printf("App %s Deploy Failed.%s\n", app, err.Error())
 				}
+			} else {
+				fmt.Printf("App %s Deploy Failed.%s\n", app, err.Error())
 			}
 		},
 	}

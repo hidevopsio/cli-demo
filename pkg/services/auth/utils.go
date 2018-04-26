@@ -1,22 +1,16 @@
 package auth
 
 import (
-	"fmt"
 	"strings"
-	"encoding/json"
+	"fmt"
+	"github.com/hidevopsio/hicli/pkg/common"
 	"net/http"
 	"bytes"
 	"io/ioutil"
 	"errors"
+	"encoding/json"
 	"github.com/manifoldco/promptui"
 )
-
-//定义HTTP获取后的对象
-type MyToken struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-	Data    string `json:"data"`
-}
 
 //定义用户用以HTTP登陆的JSON对象
 type LoginAuth struct {
@@ -37,7 +31,7 @@ func Login(url, username, password string) (token string, err error) {
 		fmt.Println("Error ", err)
 		return token, err
 	}
-	myToken := MyToken{}
+	myToken := common.HicicdResponse{}
 	resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonByte))
 	if err == nil {
 		defer resp.Body.Close()
@@ -59,6 +53,7 @@ func Login(url, username, password string) (token string, err error) {
 	return token, err
 }
 
+
 //收集用户终端输入
 func GetInput(label string) (userInput string) {
 	if label == "Password" {
@@ -75,3 +70,4 @@ func GetInput(label string) (userInput string) {
 	}
 	return userInput
 }
+

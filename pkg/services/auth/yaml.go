@@ -1,45 +1,41 @@
 package auth
 
 import (
-	"github.com/hidevopsio/hicli/config"
-	"fmt"
 	"path/filepath"
-	"os"
 	"github.com/hidevopsio/hiboot/pkg/system"
+	"fmt"
+	"github.com/hidevopsio/hicli/pkg/config"
 )
 
 const (
-	name = "client"
-	yaml = "yml"
+	name     = "client"
+	fileType = "yml"
 )
 
-type Boot struct {
-	config *config.Configuration
-}
+var userHomeDir, _ = GetHomeDir()
+var configDir = filepath.Join(userHomeDir, ".hicli")
 
-//读取用户YAML配置文件
-func ReadYaml() *config.Configuration {
-	userHomeDir, err := GetHomeDir()
-	yamlDir := filepath.Join(userHomeDir, ".hicli")
-	InitYAML()
-	if err != nil {
-		fmt.Println("Get Home Dir Failed", err)
-	}
+//读取client.yml
+func ReadYAML() *config.Configuration {
 	builder := &system.Builder{
-		Path:       yamlDir,
+		Path:       configDir,
 		Name:       name,
-		FileType:   yaml,
+		FileType:   fileType,
 		ConfigType: config.Configuration{},
+	}
+	err := builder.Init()
+	if err != nil {
+		fmt.Println("Read config file failed", err)
 	}
 	cp, err := builder.Build()
 	if err != nil {
-		fmt.Println("error", err)
+		fmt.Println("Read config file failed", err)
 	}
 	c := cp.(*config.Configuration)
 	return c
 }
 
-//更新或添加YAML
+//更新或添加client.yml
 func UpdateYAML(conf *config.Configuration, url, username, token string) error {
 	exists := false
 	var servers []config.Cluster
@@ -66,12 +62,10 @@ func UpdateYAML(conf *config.Configuration, url, username, token string) error {
 	}
 	conf.Hicli.Clusters = servers
 	//初始化build
-	userHomeDir, _ := GetHomeDir()
-	yamlPath := filepath.Join(userHomeDir, ".hicli")
 	b := &system.Builder{
-		Path:       yamlPath,
+		Path:       configDir,
 		Name:       name,
-		FileType:   yaml,
+		FileType:   fileType,
 		ConfigType: config.Cluster{},
 	}
 	err := b.Init()
@@ -80,21 +74,5 @@ func UpdateYAML(conf *config.Configuration, url, username, token string) error {
 		return err
 	}
 	err = b.Save(conf)
-	return err
-}
-
-//当client.yml文件不存在时，创建一个空白文件
-func InitYAML() (err error) {
-	userHomeDir, err := GetHomeDir()
-	yamlDir := filepath.Join(userHomeDir, ".hicli")
-	yamlFile := filepath.Join(yamlDir, "client.yml")
-	if PathExists(yamlDir) {
-		if ! PathExists(yamlFile) {
-			_, err = os.Create(yamlFile)
-		}
-	} else {
-		err = os.Mkdir(yamlDir, 755)
-		_, err = os.Create(yamlFile)
-	}
 	return err
 }

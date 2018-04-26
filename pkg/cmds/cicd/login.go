@@ -20,7 +20,7 @@ import (
 	"github.com/hidevopsio/hicli/pkg/services/auth"
 )
 
-const loginPath string = "/user/login"
+const loginPath = "/user/login"
 
 // NewCmdCicd creates a command for displaying the version of this binary
 func NewCmdCicdLogin(name string) *cobra.Command {
@@ -40,9 +40,9 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			//函数实现的功能
 			//log.Debugf("[cicd] %s cicd login --url=%s --username=%s --password=%s\n", name, url, username, strings.Repeat("*", len(password)))
-			conf := auth.ReadYaml()
+			conf := auth.ReadYAML()
 			if len(conf.Hicli.Clusters) == 0 {
-				//client.yml文件为空。让用户提供相关参数。获取并写入YAML
+				//client.yml文件为空,让用户提供相关参数。获取并写入
 				if url == "" {
 					//如果用户没有通过-s参数带入，那就要求用户输入
 					url = auth.GetInput("Server")
@@ -77,7 +77,7 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 			if err == nil && userToken != "" {
 				err := auth.UpdateYAML(conf, url, username, userToken)
 				if err != nil {
-					fmt.Println(err)
+					fmt.Println("Login Failed", err)
 					return
 				}
 				fmt.Println("Login Sucess")

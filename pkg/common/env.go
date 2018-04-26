@@ -14,6 +14,7 @@
 
 package common
 
+//部署时传入的对象
 type EnvOptions struct {
 	Name    string `json:"name"`
 	App     string `json:"app"`
@@ -21,6 +22,7 @@ type EnvOptions struct {
 	Profile string `json:"profile"`
 }
 
+//HTTP响应对象
 type HicicdResponse struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`

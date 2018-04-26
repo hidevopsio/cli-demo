@@ -3,23 +3,21 @@ package auth
 import (
 	"testing"
 	"github.com/magiconair/properties/assert"
+	"fmt"
 )
 
-func TestReadYaml(t *testing.T) {
-	conf := ReadYaml()
-	username := conf.Hicli.Clusters[0].Username
-	lastIndex := conf.Hicli.LastIndex
-	assert.Equal(t, username,"")
-	assert.Equal(t, lastIndex, 0)
+func TestReadYAML(t *testing.T) {
+	conf := ReadYAML()
+	if len(conf.Hicli.Clusters) != 0 {
+		lastIndex := conf.Hicli.LastIndex
+		username := conf.Hicli.Clusters[lastIndex].Username
+		fmt.Println(lastIndex, username)
+	}
+	fmt.Println(conf)
 }
 
 func TestUpdateYAML(t *testing.T) {
-	conf := ReadYaml()
-	err := UpdateYAML(conf, "http://www.unknowname.cn", "burtte", "Token")
-	assert.Equal(t, err, nil)
-}
-
-func TestInitYAML(t *testing.T) {
-	err := InitYAML()
+	conf := ReadYAML()
+	err := UpdateYAML(conf, "http://www.unknowname.com", "burtte", "Token")
 	assert.Equal(t, err, nil)
 }

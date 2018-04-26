@@ -27,13 +27,12 @@ func TestInitEnvOpt(t *testing.T) {
 }
 
 func TestGetToken(t *testing.T) {
-	token,url := GetTokenUrl()
+	token, url := GetTokenUrl()
 	assert.Equal(t, token, "")
-	assert.Equal(t,url,"http://127.0.0.1:8080")
+	assert.Equal(t, url, "http://127.0.0.1:8080")
 }
 
 func TestCICDRun(t *testing.T) {
-	//url := "http://127.0.0.1:8080"
 	token, url := GetTokenUrl()
 	env := common.EnvOptions{
 		App:     "hello-world",
@@ -44,7 +43,7 @@ func TestCICDRun(t *testing.T) {
 	err := CICDRun(url, token, env)
 	if err == nil {
 		fmt.Println("Deploy Sucessfuly")
-	}else {
-		fmt.Println("Deploy Failed",err)
+	} else {
+		fmt.Println("Deploy Failed", err)
 	}
 }

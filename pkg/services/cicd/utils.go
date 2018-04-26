@@ -49,7 +49,7 @@ func ToHttpData(i interface{}) (buffer *bytes.Buffer, err error) {
 
 //获取缓存的Token与URL。如果不存在，返回空
 func GetTokenUrl() (token, url string) {
-	conf := auth.ReadYaml()
+	conf := auth.ReadYAML()
 	if len(conf.Hicli.Clusters) != 0 {
 		lastIndex := conf.Hicli.LastIndex
 		token = conf.Hicli.Clusters[lastIndex].Token
@@ -72,7 +72,6 @@ func CICDRun(url, token string, env common.EnvOptions) (err error) {
 		return err
 	}
 	respByte, _ := ioutil.ReadAll(resp.Body)
-	defer resp.Body.Close()
 	err = json.Unmarshal(respByte, &serverResp)
 	if err == nil {
 		if serverResp.Code == 200 && serverResp.Message == "Successful." {
@@ -81,5 +80,6 @@ func CICDRun(url, token string, env common.EnvOptions) (err error) {
 			err = errors.New(serverResp.Message)
 		}
 	}
+	defer resp.Body.Close()
 	return err
 }
