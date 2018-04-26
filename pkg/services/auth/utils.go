@@ -1,15 +1,15 @@
 package auth
 
 import (
-	"strings"
 	"fmt"
 	"github.com/hidevopsio/hicli/pkg/common"
 	"net/http"
 	"bytes"
 	"io/ioutil"
 	"errors"
-	"encoding/json"
+	"strings"
 	"github.com/manifoldco/promptui"
+	"encoding/json"
 )
 
 //定义用户用以HTTP登陆的JSON对象
@@ -28,7 +28,7 @@ func Login(url, username, password string) (token string, err error) {
 	myAuth := LoginAuth{Username: username, Password: password}
 	jsonByte, err := json.Marshal(myAuth)
 	if err != nil {
-		fmt.Println("Error ", err)
+		fmt.Println("Login Failed ", err)
 		return token, err
 	}
 	myToken := common.HicicdResponse{}
@@ -40,6 +40,7 @@ func Login(url, username, password string) (token string, err error) {
 		if err == nil {
 			if myToken.Code == 200 {
 				token = myToken.Data
+				err = errors.New(myToken.Message)
 			} else {
 				err = errors.New(myToken.Message)
 			}
@@ -53,21 +54,58 @@ func Login(url, username, password string) (token string, err error) {
 	return token, err
 }
 
-
 //收集用户终端输入
 func GetInput(label string) (userInput string) {
+	validate := func(input string) error {
+		if len(input) < 8 {
+			return errors.New("Password must have more than 8 characters")
+		}
+		return nil
+	}
+	checkName := func(input string) error {
+		if label == "Username" {
+			if input == "" {
+				return errors.New("Please Input username!")
+			}
+		}
+		return  nil
+	}
 	if label == "Password" {
 		u := promptui.Prompt{
-			Label: label,
-			Mask:  '*',
+			Label:    label,
+			Mask:     '*',
+			Validate: validate,
 		}
 		userInput, _ = u.Run()
 	} else {
 		u := promptui.Prompt{
 			Label: label,
+			Validate: checkName,
 		}
 		userInput, _ = u.Run()
 	}
 	return userInput
 }
 
+//专门用于获取用户输入的SERVER，并做校验
+func GetInputServer(server string) (userInput string) {
+	checkURL := func(input string) error {
+		serverStrs := strings.Split(server, "[")
+		defaultServer := serverStrs[len(serverStrs)-1]
+		if strings.HasPrefix(defaultServer, "http://") || strings.HasPrefix(defaultServer, "https://") {
+			if input == "" {
+				return nil
+			}
+		}
+		if ! (strings.HasPrefix(input, "http://") || strings.HasPrefix(input, "https://")) {
+			return errors.New("Please Use Like http://SERVER:PORT OR https://SERVER:PORT")
+		}
+		return nil
+	}
+	u := promptui.Prompt{
+		Label:    server,
+		Validate: checkURL,
+	}
+	userInput, _ = u.Run()
+	return userInput
+}

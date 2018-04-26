@@ -45,11 +45,12 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 				//client.yml文件为空,让用户提供相关参数。获取并写入
 				if url == "" {
 					//如果用户没有通过-s参数带入，那就要求用户输入
-					url = auth.GetInput("Server")
-				}
-				if ! auth.CheckUrl(url) {
-					fmt.Println("Error Server Address:", url)
-					return
+					url = auth.GetInputServer("Server")
+				} else {
+					if ! auth.CheckUrl(url) {
+						fmt.Println("Please Use http://SERVER:PORT OR https://SERVER:PORT")
+						return
+					}
 				}
 				username = auth.GetInput("Username")
 			} else {
@@ -59,31 +60,33 @@ func NewCmdCicdLogin(name string) *cobra.Command {
 				defaultUsername = conf.Hicli.Clusters[lastIndex].Username
 				//为空，说明没有通过-s参数传入Server
 				if url == "" {
-					url = auth.GetInput("Server[" + defaultURL + "]")
+					url = auth.GetInputServer("Server[" + defaultURL + "]")
 					if url == "" {
 						url = defaultURL
 					}
-				}
-				if ! auth.CheckUrl(url) {
-					fmt.Println("Server Formt Wrong Plese Use http://SERVER OR https://SERVER")
-					return
+				} else {
+					if ! auth.CheckUrl(url) {
+						fmt.Println("Please use http://SERVER:PORT OR https://SERVER:PORT")
+						return
+					}
 				}
 				if username = auth.GetInput("Username[" + defaultUsername + "]"); username == "" {
 					username = defaultUsername
 				}
 			}
 			password = auth.GetInput("Password")
-			userToken, err := auth.Login(url+loginPath, username, password)
-			if err == nil && userToken != "" {
+			userToken, msg := auth.Login(url+loginPath, username, password)
+			if userToken != "" {
 				err := auth.UpdateYAML(conf, url, username, userToken)
 				if err != nil {
 					fmt.Println("Login Failed", err)
 					return
 				}
-				fmt.Println("Login Sucess")
+				//这里是登陆成功，返回hicicd服务返回的消息
+				fmt.Println(msg)
 			} else {
 				//提供的用户名与密码可能有误或者网络不可达
-				fmt.Println("Login Failed ", err)
+				fmt.Println("Login Failed ", msg)
 			}
 		}, //函数功能实现结束标签
 	}
